@@ -1,4 +1,5 @@
-import { counter, addCounter, removeCounter, incrementCounter } from './abramovReduxLessons'
+import { counter, addCounter, removeCounter, 
+    incrementCounter, toggleTodo } from './abramovReduxLessons'
 import deepFreeze  from 'deep-freeze'
 test('Counter reducer ', () => {
     expect(counter(0, { type: 'INCREMENT' })).toBe(1)
@@ -33,4 +34,21 @@ test('testIncrementCounter immutable', () => {
     deepFreeze(listBefore)
 
     expect( incrementCounter(listBefore, 1)).toEqual(listAfter) 
+})
+
+test('testToggleTodo immutable', () => {
+    const todoBefore = {
+        id: 0, 
+        text: 'Learn Redux', 
+        completed: false
+    }
+    const todoAfter = {
+        id: 0, 
+        text: 'Learn Redux', 
+        completed: true
+    }
+
+    deepFreeze(todoBefore)
+
+    expect( toggleTodo(todoBefore)).toEqual(todoAfter) 
 })

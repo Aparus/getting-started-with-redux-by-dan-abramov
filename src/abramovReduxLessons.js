@@ -78,3 +78,30 @@ export const incrementCounter = (list, index) => {
     ]
      */
 }
+
+export const toggleTodo = (todo) => {
+    //ES7 - object spread 
+    return {
+        ...todo, 
+        completed: !todo.completed
+    }
+/*  
+    //ES6 alternative 
+    return Object.assign({}, todo, {
+        completed: !todo.completed
+    }) 
+*/
+/* 
+    //mutable version: 
+    todo.completed = !todo.completed
+    return todo;
+*/
+/*
+    //bad alternative: 
+    return {
+        id: todo.id, 
+        text: todo.text, 
+        completed: !todo.completed
+    }
+ */
+} 
