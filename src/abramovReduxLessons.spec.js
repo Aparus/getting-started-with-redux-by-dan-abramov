@@ -5,6 +5,7 @@ import {
   removeCounter,
   incrementCounter,
   toggleTodo,
+  todos,
 } from './abramovReduxLessons';
 
 test('Counter reducer ', () => {
@@ -55,4 +56,23 @@ test('testToggleTodo immutable', () => {
   deepFreeze(todoBefore);
 
   expect(toggleTodo(todoBefore)).toEqual(todoAfter);
+});
+
+test('testAddTodo', () => {
+  const stateBefore = [];
+  const action = {
+    type: 'ADD_TODO',
+    id: 0,
+    text: 'Learn Redux',
+  };
+  const stateAfter = [
+    {
+      id: 0,
+      text: 'Learn Redux',
+      completed: false,
+    },
+  ];
+  deepFreeze(stateBefore);
+  deepFreeze(action);
+  expect(todos(stateBefore, action)).toEqual(stateAfter);
 });
