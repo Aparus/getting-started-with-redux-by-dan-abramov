@@ -1,12 +1,6 @@
 import deepFreeze from 'deep-freeze';
-import {
-  counter,
-  addCounter,
-  removeCounter,
-  incrementCounter,
-  toggleTodo,
-  todos,
-} from './abramovReduxLessons';
+import { counter, addCounter, removeCounter, incrementCounter } from './lessons-part-1-counter';
+import { toggleTodo, todos } from './lessons-part-2-todos';
 
 test('Counter reducer ', () => {
   expect(counter(0, { type: 'INCREMENT' })).toBe(1);
