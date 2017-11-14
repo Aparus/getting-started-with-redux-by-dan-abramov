@@ -1,6 +1,6 @@
 /* import React from 'react';
 import ReactDOM from 'react-dom'; */
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
 export const toggleTodo = todo =>
   // ES7 - object spread
@@ -48,10 +48,16 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
+const todoApp = combineReducers({
+  todos,
+  visibilityFilter,
+});
+/*
 const todoApp = (state = {}, action) => ({
   todos: todos(state.todos, action),
   visibilityFilter: visibilityFilter(state.visibilityFilter, action),
 });
+*/
 
 const store = createStore(
   todoApp,
