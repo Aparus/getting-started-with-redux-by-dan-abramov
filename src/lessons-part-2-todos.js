@@ -39,7 +39,21 @@ export const todos = (state = [], action) => {
   }
 };
 
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return action.filter;
+    default:
+      return state;
+  }
+};
+
+const todoApp = (state = {}, action) => ({
+  todos: todos(state.todos, action),
+  visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+});
+
 const store = createStore(
-  todos,
+  todoApp,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
