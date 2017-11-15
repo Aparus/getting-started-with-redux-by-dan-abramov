@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 
 export const toggleTodo = todo =>
   // ES7 - object spread
@@ -217,6 +218,9 @@ const TodoApp = () => (
   </div>
 );
 
+/*
+// we replaced Provider by this: import { Provider } from 'react-redux';
+
 class Provider extends Component {
   getChildContext() {
     return {
@@ -228,10 +232,9 @@ class Provider extends Component {
     return this.props.children;
   }
 }
-
 Provider.childContextTypes = {
   store: PropTypes.object,
-};
+}; */
 
 ReactDOM.render(
   <Provider
