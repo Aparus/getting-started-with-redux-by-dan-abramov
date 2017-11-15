@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 import { counter, addCounter, removeCounter, incrementCounter } from './lessons-part-1-counter';
-import { toggleTodo, todos } from './lessons-part-2-todos';
+import { toggleTodoImmutable, todos } from './lessons-part-2-todos';
 
 test('Counter reducer ', () => {
   expect(counter(0, { type: 'INCREMENT' })).toBe(1);
@@ -35,6 +35,8 @@ test('testIncrementCounter immutable', () => {
   expect(incrementCounter(listBefore, 1)).toEqual(listAfter);
 });
 
+/*
+// old part of tutorial, not used in app
 test('testToggleTodo immutable', () => {
   const todoBefore = {
     id: 0,
@@ -50,7 +52,7 @@ test('testToggleTodo immutable', () => {
   deepFreeze(todoBefore);
 
   expect(toggleTodo(todoBefore)).toEqual(todoAfter);
-});
+}); */
 
 test('testAddTodo', () => {
   const stateBefore = [];

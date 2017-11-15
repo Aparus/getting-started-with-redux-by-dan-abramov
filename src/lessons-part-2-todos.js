@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 
-export const toggleTodo = todo =>
+export const toggleTodoImmutable = todo =>
   // ES7 - object spread
   ({
     ...todo,
@@ -84,12 +84,15 @@ const mapStateToLinkProps = (state, ownProps) => ({
   active: ownProps.filter === state.visibilityFilter,
 });
 
+// action creator
+const setVisibilityFilter = filter => ({
+  type: 'SET_VISIBILITY_FILTER',
+  filter,
+});
+
 const mapDispatchToLinkProps = (dispatch, ownProps) => ({
   onClick: () => {
-    dispatch({
-      type: 'SET_VISIBILITY_FILTER',
-      filter: ownProps.filter,
-    });
+    dispatch(setVisibilityFilter(ownProps.filter));
   },
 });
 
@@ -149,6 +152,13 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
+// action creator
+const addTodo = text => ({
+  type: 'ADD_TODO',
+  id: Date.now(),
+  text,
+});
+
 let AddTodo = ({ dispatch }) => {
   let input;
   return (
@@ -160,11 +170,7 @@ let AddTodo = ({ dispatch }) => {
       />
       <button
         onClick={() => {
-          dispatch({
-            type: 'ADD_TODO',
-            id: Date.now(),
-            text: input.value,
-          });
+          dispatch(addTodo(input.value));
           input.value = '';
         }}
       >
@@ -190,12 +196,15 @@ const Footer = ({ store }) => (
 const mapStateToTodoListProps = state => ({
   todos: getVisibleTodos(state.todos, state.visibilityFilter),
 });
+
+// action creator
+const toggleTodo = id => ({
+  type: 'TOGGLE_TODO',
+  id,
+});
 const mapDispatchToTodoListProps = dispatch => ({
   onTodoClick: (id) => {
-    dispatch({
-      type: 'TOGGLE_TODO',
-      id,
-    });
+    dispatch(toggleTodo(id));
   },
 });
 const VisibleTodoList = connect(mapStateToTodoListProps, mapDispatchToTodoListProps)(TodoList);
