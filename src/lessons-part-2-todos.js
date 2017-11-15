@@ -143,7 +143,7 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-const AddTodo = (props, { store }) => {
+let AddTodo = ({ dispatch }) => {
   let input;
   return (
     <div>
@@ -154,10 +154,10 @@ const AddTodo = (props, { store }) => {
       />
       <button
         onClick={() => {
-          store.dispatch({
+          dispatch({
             type: 'ADD_TODO',
-            text: input.value,
             id: Date.now(),
+            text: input.value,
           });
           input.value = '';
         }}
@@ -167,9 +167,11 @@ const AddTodo = (props, { store }) => {
     </div>
   );
 };
-AddTodo.contextTypes = {
-  store: PropTypes.object,
-};
+AddTodo = connect()(AddTodo); /*
+AddTodo не совсем контейнер, он просто вызывает диспатч,
+ему не нужен стор, поэтому мы можем создать коннект коротким путем:
+AddTodo = connect()(AddTodo);
+*/
 
 const Footer = ({ store }) => (
   <p>
@@ -179,11 +181,10 @@ const Footer = ({ store }) => (
   </p>
 );
 
-const mapStateToProps = state => ({
+const mapStateToTodoListProps = state => ({
   todos: getVisibleTodos(state.todos, state.visibilityFilter),
 });
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToTodoListProps = dispatch => ({
   onTodoClick: (id) => {
     dispatch({
       type: 'TOGGLE_TODO',
@@ -191,8 +192,7 @@ const mapDispatchToProps = dispatch => ({
     });
   },
 });
-
-const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+const VisibleTodoList = connect(mapStateToTodoListProps, mapDispatchToTodoListProps)(TodoList);
 
 /*
 //replaced by const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
