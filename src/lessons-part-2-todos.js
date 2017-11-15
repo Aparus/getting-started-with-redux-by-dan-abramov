@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React /* ,  { Component } */ from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { createStore, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 
@@ -69,17 +69,35 @@ const todoApp = (state = {}, action) => ({
 const Link = ({ active, children, onClick }) => {
   if (active) return <span>{children}</span>;
   return (
-    <a
-      href="#"
+    <button
       onClick={(e) => {
         e.preventDefault();
         onClick();
       }}
     >
       {children}
-    </a>
+    </button>
   );
 };
+
+const mapStateToLinkProps = (state, ownProps) => ({
+  active: ownProps.filter === state.visibilityFilter,
+});
+
+const mapDispatchToLinkProps = (dispatch, ownProps) => ({
+  onClick: () => {
+    dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter: ownProps.filter,
+    });
+  },
+});
+
+const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link);
+
+/*
+//we replaced next component by
+// const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link);
 
 class FilterLink extends Component {
   componentDidMount() {
@@ -95,25 +113,13 @@ class FilterLink extends Component {
     const { store } = this.context;
     const state = store.getState();
 
-    return (
-      <Link
-        active={props.filter === state.visibilityFilter}
-        onClick={() =>
-          store.dispatch({
-            type: 'SET_VISIBILITY_FILTER',
-            filter: props.filter,
-          })
-        }
-      >
-        {props.children}
-      </Link>
-    );
+    return <Link>{props.children}</Link>;
   }
 }
-
 FilterLink.contextTypes = {
   store: PropTypes.object,
-};
+}; */
+
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
     case 'SHOW_ALL':
