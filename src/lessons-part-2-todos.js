@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 
 export const toggleTodo = todo =>
   // ES7 - object spread
@@ -179,6 +179,24 @@ const Footer = ({ store }) => (
   </p>
 );
 
+const mapStateToProps = state => ({
+  todos: getVisibleTodos(state.todos, state.visibilityFilter),
+});
+
+const mapDispatchToProps = dispatch => ({
+  onTodoClick: (id) => {
+    dispatch({
+      type: 'TOGGLE_TODO',
+      id,
+    });
+  },
+});
+
+const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+
+/*
+//replaced by const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+
 class VisibleTodoList extends Component {
   componentDidMount() {
     const { store } = this.context;
@@ -208,7 +226,7 @@ class VisibleTodoList extends Component {
 }
 VisibleTodoList.contextTypes = {
   store: PropTypes.object,
-};
+}; */
 
 const TodoApp = () => (
   <div>
