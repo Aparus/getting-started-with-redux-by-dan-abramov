@@ -30,3 +30,11 @@
     transform: rotate(360deg);
   }
 }
+
+.todoApp {
+  margin: 20px;
+}
+
+.todoApp li {
+  list-style-type: none;
+}
